@@ -1,6 +1,6 @@
 import sys
 input = sys.stdin.readline;
-
+''' 실패코드
 # 변수 입력 받기
 # S 문자열, P 부분 문자열, arr 부분 문자열list, ACGT 검증list
 # 아이디어 : 검증List는 입력 받은 수 만큼으로 설정한다.
@@ -37,3 +37,12 @@ while end_idx < S :
 
 
 print(count);
+'''
+# 현재 값에서 이전배열[0]을 빼고, 이번 배열[p]번쨰 값을 검증
+# 그런 방식으로 현재 값에서 값만 더하고 뺸후 검증배열과 비교한다.
+# 검증 후 현재 값은 이전배열이 됨.
+S, P = map(int, input().split());
+Arr = list(input());
+ACGTarr = list(map(int, input().split()));
+checkingArr = list(ACGTarr)
+
