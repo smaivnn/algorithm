@@ -1,48 +1,95 @@
-import sys
-input = sys.stdin.readline;
-''' 실패코드
-# 변수 입력 받기
-# S 문자열, P 부분 문자열, arr 부분 문자열list, ACGT 검증list
-# 아이디어 : 검증List는 입력 받은 수 만큼으로 설정한다.
-# 이후 윈도우 내에서 해당 검증 리스트의 것이 몇 개 있느냐 만큼 뺀다.
-# 모든 리스트가 음수이면 검증된것.
+# 문제 풀이 실패 (내 풀이가 맞지 않음)
 
-S, P = map(int, input().split());
-arr = list(input());
-ACGTlist = list(map(int, input().split()));
-start_idx, end_idx = 0, P-1;
-count = 0;
-A, C, G, T = ACGTlist[0], ACGTlist[1], ACGTlist[2], ACGTlist[3];
+# 내 풀이--------------------------------------------------------------
+# 입력받은 배열을 윈도우 단위로 확인한다.
+# 필요한거 : 원본 입력 배열, 숫자 저장 배열, 윈도우 배열, 윈도우 크기
+# 1. for문에서 윈도우 크기만큼의 배열을 넣는다.
+# 2. 이 배열이 갖고있는 알파벳만큼 숫자를 더한다.
+# 3. 다음 칸으로 이동할 때, 윈도우의 맨 앞 인덱스([0])번째를 뺀다. 이 때 if문을 통해 알파벳 확인 후 해당하는 숫자저장배열에서 뺴기
+# 4. 이동 후 윈도우의 새로추가된 맨 뒤인덱스([3])번째를 확인, if문을 통해 숫자 배열 올리기.
+# 5. 만약 ACGT조건과 비교 후 값 초과가 되면 count 올리기.
 
-# for i in range(start_idx, end_idx + 1) :
-while end_idx < S :
-    # print(f"start : {start_idx}, end : {end_idx}")
-    if (start_idx > end_idx) :
-        if A < 1 and C < 1 and G < 1 and T < 1:
-            count += 1;
-            # print(f"A : {A}, C : {C}, G : {G}, T : {T}")
-        A, C, G, T = ACGTlist[0], ACGTlist[1], ACGTlist[2], ACGTlist[3];
-        end_idx += 1;
-        start_idx = end_idx - ( P - 1);
+# 의사코드
+# S DNA문자열길이, P 부분 문자열 길이, DNAList 원본 입력 배열, DNACount 숫자 체크 원본 배열, windowList : 윈도우 배열, windownDNACount : 윈도우 숫자 체크배열, count 답
+# 원본 입력 배열에서 부분 문자열 길이만큼 window배열에 저장한다.
+# 숫자 저장배열에 해당하는 갯수만큼 저장한다.
+# 배열의 맨 앞을 확인한다. 숫자배열에서 뺸다.
+# 윈도우를 옮긴다. 배열의 맨 뒤를 확인한다. 숫자 배열에 더한다.
+# 이를 마지막까지 반복한다.
+# ---------------------------------------------------------------------
 
-    if arr[start_idx] == 'A':
-        A -= 1;
-    elif arr[start_idx] == 'C':
-        C -= 1;
-    elif arr[start_idx] == 'G':
-        G -= 1;
-    elif arr[start_idx] == 'T':
-        T -= 1;
-    start_idx += 1;
+checkList = [0] * 4; # DNA비밀번호 체크배열
+myList = [0] * 4; # 윈도우의 현재 상태
+checkSecret = 0; # 몇 개의 문자와 관련된 개수를 충족했는지 판단한다.
+
+def myadd(c) : 
+    global checkList, myList, checkSecret;
+    if c == 'A' : # 만약 입력받은 글자가 A라면 
+        myList[0] += 1 # 현재 상태에 + 1
+        if myList[0] == checkList[0] : # 내 현재 값이 윈도우 체크배열의 값과 같다면
+            checkSecret += 1; # 하나올린다, 4가 되면 모두 충족이라는 뜻
+    
+    elif c == 'C' :
+        myList[1] += 1;
+        if myList[1] == checkList[1] :
+            checkSecret += 1
+
+    elif c == 'G' :
+        myList[2] += 1;
+        if myList[2] == checkList[2] :
+            checkSecret += 1
+
+    elif c == 'T' :
+        myList[3] += 1;
+        if myList[3] == checkList[3] :
+            checkSecret += 1
+
+def myremove(c) :
+    global checkList, myList, checkSecret;
+    if c == 'A' : # 입력받은 문자가 A라면
+        if myList[0] == checkList[0] : # 
+            checkSecret -= 1; # 
+        myList[0] -= 1
+
+    elif c == 'C' :
+        if myList[1] == checkList[1] :
+            checkSecret -= 1
+        myList[1] -= 1
+
+    elif c == 'G' :
+        if myList[2] == checkList[2] :
+            checkSecret -= 1
+        myList[2] -= 1
+
+    elif c == 'T' :
+        if myList[3] == checkList[3] :
+            checkSecret -= 1
+        myList[3] -= 1
 
 
-print(count);
-'''
-# 현재 값에서 이전배열[0]을 빼고, 이번 배열[p]번쨰 값을 검증
-# 그런 방식으로 현재 값에서 값만 더하고 뺸후 검증배열과 비교한다.
-# 검증 후 현재 값은 이전배열이 됨.
-S, P = map(int, input().split());
-Arr = list(input());
-ACGTarr = list(map(int, input().split()));
-checkingArr = list(ACGTarr)
 
+S, P = map(int, input().split()); # 문자열길이, 부분문자열 길이
+Result = 0;
+A = list(input()); # DNA문자열
+checkList = list(map(int, input().split())); # DNA비밀번호 체크배열
+
+# 몇개가 현재 완료되었나 (0인가? => 할 필요 없음)
+for i in range(4) :
+    if checkList[i] == 0 :
+        checkSecret += 1
+
+# 처음 부분배열에 대해서 검증함.
+for i in range(P) :
+    myadd(A[i])
+    if checkSecret == 4 :
+        Result += 1;
+
+# 
+for i in range(P, S) :
+    j = i - P
+    myadd(A[i]) # 부분문자열번째 처리
+    myremove(A[j]) # 0번째 처리
+    if checkSecret == 4 :
+        Result += 1
+
+print(Result)
