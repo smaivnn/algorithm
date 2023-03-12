@@ -1,9 +1,0 @@
-n = int(input()); # 수열 갯수
-ans = [0] * n; # 정답 리스트
-A = list(map(int,input().split()));  # 수열 리스트
-myStack = []; # 스택 선언
-
-for i in range(n) : 
-    while myStack and A[myStack[-1]] < A[i] :
-        ans[myStack.pop()] = A[i];
-
