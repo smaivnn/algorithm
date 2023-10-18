@@ -16,6 +16,7 @@ Nlist = list(map(int, input().split()));
 sumList = [0];
 
 for i in range(N) :
+    print(i)
     sumList.append(sumList[i] + Nlist[i]);
 
 for _ in range(M) :

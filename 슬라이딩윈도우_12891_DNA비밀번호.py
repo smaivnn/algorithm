@@ -1,3 +1,4 @@
+"""
 # 문제 풀이 실패 (내 풀이가 맞지 않음)
 
 # 내 풀이--------------------------------------------------------------
@@ -93,3 +94,57 @@ for i in range(P, S) :
         Result += 1
 
 print(Result)
+"""
+import sys
+input = sys.stdin.readline
+
+s, p = map(int, input().split())
+dnaList = list(input().strip())
+dnaDic = {};
+acgtList = list(map(int, input().split()));
+acgtDic = {"A": 0, "C": 0, "G" : 0, "T": 0};
+start, end = 0, p;
+count = 0;
+
+for i in range(p) :
+    if dnaList[i] in dnaDic :
+        dnaDic[dnaList[i]] += 1;
+    else :
+        dnaDic[dnaList[i]] = 1;
+
+
+acgtDic["A"] = int(acgtList[0])
+acgtDic["C"] = int(acgtList[1])
+acgtDic["G"] = int(acgtList[2])
+acgtDic["T"] = int(acgtList[3])
+    
+
+def checkDic(array, agctArray) :
+    nucleotides = ["A", "C", "G", "T"]
+    for key in nucleotides:
+        if key not in array :
+            array[key] = 0
+
+    if array["A"] >= agctArray["A"] and array["C"] >= agctArray["C"] and array["G"] >= agctArray["G"] and array["T"] >= agctArray["T"]:
+        return True
+    return False
+
+
+while end <= s :
+    if checkDic(dnaDic, acgtDic) == True:
+        count += 1
+        if end == s :
+            break;
+        dnaDic[dnaList[start]] -= 1;
+        dnaDic[dnaList[end]] += 1; 
+        start += 1
+        end += 1
+    else :
+        if end == s :
+            break;
+        dnaDic[dnaList[start]] -= 1;
+        dnaDic[dnaList[end]] += 1; 
+        start += 1
+        end += 1
+
+print(count)
