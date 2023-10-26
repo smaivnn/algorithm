@@ -1,5 +1,6 @@
 import sys
 input = sys.stdin.readline
+result = 0;
 
 def mergeSort(start, end) :
     if start < end :
@@ -11,6 +12,7 @@ def mergeSort(start, end) :
 def merge(start, mid, end) :
     global arr
     global answer
+    global result
     i = start
     j = mid + 1
     k = start
@@ -21,6 +23,7 @@ def merge(start, mid, end) :
             i += 1
         else :
             answer[k] = arr[j]
+            result = result + (j - k)
             j += 1
         k += 1
 
@@ -38,13 +41,11 @@ def merge(start, mid, end) :
 
 
 N = int(input())
-arr = [0] * N
-for i in range(N) :
-    arr[i] = int(input());
+arr = list(map(int, input().split()))
+
 
 answer = [0] * N;
 
 mergeSort(0, N-1)
 
-for i in range(N) :
-    print(f"{arr[i]}")
+print(f"{result}")

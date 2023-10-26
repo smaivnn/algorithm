@@ -1,47 +1,19 @@
-# 코드는 swap이 일어나지 않은 때를 출력한다.
-# 언제 swap이 끝났는지 어떻게 아냐
-# for 문이 안에서 얼마나 일어났느냐가 중요한데
-# 이것을 알아보려면
-'''
-  10 1 5 2 3일때
-  정렬 후에는 1 2 3 5 10이 된다.
-  이 때 10은 4만큼의 인덱스 증가
-  5는 1만큼의 인덱스 증가
-  1은 1만큼의 인덱스 감소
-  2와 3은 2만큼의 인덱스 감소가 일어난다.
-
-  증가가 먼저 일어난 후 정렬되는 과정에서 감소가 이후에 일어나기에
-  감소폭이 가장 큰 것 + 검증for문 1회를 더한 값이 외측 for문이 일어난 횟수가 되는 것이다.
-
-  정렬 전 : [(10, 0), (1, 1), (5, 2), (2, 3), (3, 4)]
-  정렬 후 : [(1, 1), (2, 3), (3, 4), (5, 2), (10, 0)]
-  정렬 전에는 0 1 2 ..n의 순서로 되어있다.
-  정렬 전[n][1] - 정렬 후[n][1]을 한다면, 
-  해당 input값이 얼마나 움직였는지 알 수 있다. 이때 정렬 전 idx는 무조건 0~시작하기에 range(n)을 하던 sorted[n][1]을 쓰던 상관없다.
-
-  아무튼 이 때 편한 것을 사용하면 되는데, 정렬 전 - 정렬 후를 한다면 음수값이 가장 큰 것 - 1
-  정렬 후 - 정렬 전을 한다면 양수값이 가장 큰 것 + 1을 진행한다.
-
-  이 코드에서는 정렬 후 - 정렬 전을 진행한 후 + 1 하였다.
-'''
-
 import sys 
 input = sys.stdin.readline
 
 n = int(input());
 arr = []
 
-for i in range(n) :
-    arr.append((int(input()), i))
+for i in range(n):
+    arr.append((int(input()), i)) 
 
-sortedArr = sorted(arr)
+arr.sort();
 
-# 정렬 후에는 무조건 0,1,2,3,4..n이 된다.
-# 정렬 전 idx는 sorted[n][1]값이 된다. 
-countValue = 0
-for i in range(n) : 
-    if sortedArr[i][1] - i > countValue :
-        countValue = sortedArr[i][1] - i
-        
-print(f"{countValue + 1}")
+top = 0;
 
+for i in range(n):
+    if  arr[i][1] - i > top :
+        top =  arr[i][1] - i
+    
+
+print(top + 1)
